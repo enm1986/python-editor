@@ -5,13 +5,15 @@ npm install @codingame/esbuild-import-meta-url-plugin
 npm install @codingame/monaco-vscode-api
 npm install vscode@npm:@codingame/monaco-vscode-extension-api
 npm install monaco-editor@npm:@codingame/monaco-vscode-editor-api
+
 npm install vscode@npm:@codingame/monaco-vscode-api
 npm install monaco-editor@npm:@codingame/monaco-vscode-editor-api
 npm install -D @types/vscode
 
 ````
 
-## Services
+## Service Override
+
 https://github.com/CodinGame/monaco-vscode-api/wiki/List-of-service-overrides
 
 ### Services included by default
@@ -35,7 +37,7 @@ npm install @codingame/monaco-vscode-python-default-extension
 npm install @codingame/monaco-vscode-theme-defaults-default-extension
 ````
 
-### LSP
+## LSP
 
 ````
 npm install vscode-ws-jsonrpc
@@ -43,9 +45,8 @@ npm install monaco-languageclient
 
 ````
 
-import {initialize} from '@codingame/monaco-vscode-api'
+### Pylsp
 
-## Pylsp
 ````
 pylsp --ws --port 5007
 ````
@@ -53,7 +54,6 @@ pylsp --ws --port 5007
 ## Extensiones
 
 https://www.vsixhub.com/
-
 
 ## Snippets
 
