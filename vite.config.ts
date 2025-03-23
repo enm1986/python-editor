@@ -1,6 +1,5 @@
 import type {UserConfig} from 'vite';
 import importMetaUrlPlugin from '@codingame/esbuild-import-meta-url-plugin';
-import {viteStaticCopy} from 'vite-plugin-static-copy';
 import vsixPlugin from '@codingame/monaco-vscode-rollup-vsix-plugin'
 
 export default {

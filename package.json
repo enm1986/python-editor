@@ -43,7 +43,6 @@
     "monaco-editor": "npm:@codingame/monaco-vscode-editor-api@^15.0.2",
     "monaco-editor-wrapper": "~6.6.0",
     "monaco-languageclient": "^9.5.0",
-    "rollup": "^4.37.0",
     "vscode": "npm:@codingame/monaco-vscode-extension-api@^15.0.2",
     "vscode-ws-jsonrpc": "^3.4.0"
   }
