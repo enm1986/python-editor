@@ -1,3 +1,11 @@
+import './style.css'
+import './extensions/blinds-theme.vsix'
+import './extensions/dark-colors-theme.vsix'
+import './extensions/dracula-high-contrast.vsix'
+import './extensions/jetbrains-darcula-theme.vsix'
+import './extensions/see-the-color.vsix'
+import './extensions/vsc-material-theme.vsix'
+
 import '@codingame/monaco-vscode-python-default-extension';
 import "@codingame/monaco-vscode-theme-defaults-default-extension";
 
@@ -17,10 +25,11 @@ import "@codingame/monaco-vscode-theme-monokai-dimmed-default-extension"
 
 import "@codingame/monaco-vscode-keybindings-service-override"
 
-import './style.css'
+
 import * as monaco from 'monaco-editor';
 import {initialize as initializeServices} from "@codingame/monaco-vscode-api"
-import {extensions, } from "vscode";
+import {registerExtension} from "@codingame/monaco-vscode-api/extensions";
+// import {extensions} from "vscode";
 import "vscode/localExtensionHost";
 
 import {initWebSocketAndStartClient} from './lsp-client'
@@ -38,6 +47,7 @@ import getSnippetsServiceOverride from '@codingame/monaco-vscode-snippets-servic
 // import getExtensionGalleryServiceOverride from "@codingame/monaco-vscode-extension-gallery-service-override"
 // import getAIServiceOverride from '@codingame/monaco-vscode-ai-service-override';
 import getKeybindingsServiceOverride from "@codingame/monaco-vscode-keybindings-service-override"
+
 
 export type WorkerLoader = () => Worker;
 const workerLoaders: Partial<Record<string, WorkerLoader>> = {
