@@ -54,26 +54,6 @@ pylsp --ws --port 5007
 
 https://www.vsixhub.com/
 
-````javascript
-import {initialize} from 'vscode/extensions';
-import {registerExtension} from 'vscode/extensions';
-
-// Inicializa el API de VSCode
-initialize();
-
-// Cargar la extensión empaquetada
-registerExtension({
-    async load() {
-        // Importa la extensión empaquetada
-        const extension = await import('ruta/a/tu/extension.vsix');
-        return extension.default;
-    }
-}).then(extension => {
-    console.log('Extensión cargada:', extension);
-}).catch(error => {
-    console.error('Error al cargar la extensión:', error);
-});
-````
 
 ## Snippets
 
