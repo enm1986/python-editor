@@ -95,4 +95,4 @@ monaco.editor.create(document.getElementById('editor')!, {
 
 
 // initWebSocketAndStartClient("ws://localhost:5007/")
-initWebSocketAndStartClient("ws://localhost:8000/lsp")
+initWebSocketAndStartClient("ws://localhost:8000/lsp/client")
