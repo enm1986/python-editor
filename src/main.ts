@@ -39,15 +39,14 @@ import getPreferencesServiceOverride from "@codingame/monaco-vscode-preferences-
 import getLanguagesServiceOverride from "@codingame/monaco-vscode-languages-service-override";
 import getThemeServiceOverride from "@codingame/monaco-vscode-theme-service-override";
 import getTextMateServiceOverride from "@codingame/monaco-vscode-textmate-service-override";
-import getModelServiceOverride from "@codingame/monaco-vscode-model-service-override";
+// import getModelServiceOverride from "@codingame/monaco-vscode-model-service-override";
 import getExtensionServiceOverride from "@codingame/monaco-vscode-extensions-service-override";
 import getSnippetsServiceOverride from '@codingame/monaco-vscode-snippets-service-override';
-// import getNotificationsServiceOverride from  "@codingame/monaco-vscode-notifications-service-override";
 // import getConfigurationServiceOverride from "@codingame/monaco-vscode-configuration-service-override"
 // import getExtensionGalleryServiceOverride from "@codingame/monaco-vscode-extension-gallery-service-override"
 // import getAIServiceOverride from '@codingame/monaco-vscode-ai-service-override';
-import getKeybindingsServiceOverride from "@codingame/monaco-vscode-keybindings-service-override"
-
+// import getKeybindingsServiceOverride from "@codingame/monaco-vscode-keybindings-service-override"
+// import getNotificationsServiceOverride from  "@codingame/monaco-vscode-notifications-service-override";
 
 export type WorkerLoader = () => Worker;
 const workerLoaders: Partial<Record<string, WorkerLoader>> = {
@@ -68,16 +67,16 @@ window.MonacoEnvironment = {
 
 await initializeServices({
     ...getBaseServiceOverride(),
-    ...getPreferencesServiceOverride(),
-    ...getTextMateServiceOverride(),
-    ...getThemeServiceOverride(),
+    // ...getPreferencesServiceOverride(),
     ...getLanguagesServiceOverride(),
-    ...getModelServiceOverride(),
+    ...getThemeServiceOverride(),
+    ...getTextMateServiceOverride(),
+    // ...getModelServiceOverride(),
     ...getExtensionServiceOverride(),
     ...getSnippetsServiceOverride(),
-    ...getKeybindingsServiceOverride(),
-    // ...getNotificationsServiceOverride(),
     // ...getConfigurationServiceOverride(),
+    // ...getKeybindingsServiceOverride(),
+    // ...getNotificationsServiceOverride(),
     // ...getAIServiceOverride({
     //     // Opciones de configuración (opcional)
     //     enableAI: true, // Habilita el servicio de IA
