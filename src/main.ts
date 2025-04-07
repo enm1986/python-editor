@@ -35,7 +35,7 @@ import "vscode/localExtensionHost";
 import {initWebSocketAndStartClient} from './lsp-client'
 
 import getBaseServiceOverride from "@codingame/monaco-vscode-base-service-override"
-import getPreferencesServiceOverride from "@codingame/monaco-vscode-preferences-service-override"
+// import getPreferencesServiceOverride from "@codingame/monaco-vscode-preferences-service-override"
 import getLanguagesServiceOverride from "@codingame/monaco-vscode-languages-service-override";
 import getThemeServiceOverride from "@codingame/monaco-vscode-theme-service-override";
 import getTextMateServiceOverride from "@codingame/monaco-vscode-textmate-service-override";
