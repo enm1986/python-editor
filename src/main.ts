@@ -85,6 +85,14 @@ await initializeServices({
     // }),
 });
 
+const workspace = 'client'
+const uuid = crypto.randomUUID();
+const workspace_data = {
+    "campos": {
+        "APL": "TextCtrl"
+    }
+}
+
 
 monaco.editor.create(document.getElementById('editor')!, {
     value: "import numpy as np\nprint('Hello world!')",
@@ -93,8 +101,8 @@ monaco.editor.create(document.getElementById('editor')!, {
 });
 
 
-// initWebSocketAndStartClient("ws://localhost:5007/")
-initWebSocketAndStartClient("ws://localhost:8000/lsp/client")
+initWebSocketAndStartClient(`ws://localhost:8000/lsp/${workspace}?uuid=${uuid}`)
+await updateWorkspace(workspace_data)
 
 // console.log('result', 'sendToBackend');
 // const result = await sendToBackend('debug');
@@ -103,9 +111,26 @@ initWebSocketAndStartClient("ws://localhost:8000/lsp/client")
 // Función para enviar solicitudes al backend
 async function sendToBackend(endpoint: any) {
     try {
-        const response = await fetch(`http://localhost:8000/${endpoint}/client`, {
+        const response = await fetch(`http://localhost:8000/${endpoint}/${workspace}`, {
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+        throw error;
+    }
+}
+
+async function updateWorkspace(data: any) {
+    try {
+        const response = await fetch(`http://localhost:8000/update?uuid=${uuid}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"data": data})
         });
         if (!response.ok) {
             throw new Error(`Error: ${response.status} ${response.statusText}`);
