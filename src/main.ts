@@ -55,7 +55,7 @@ const workerLoaders: Partial<Record<string, WorkerLoader>> = {
 }
 
 window.MonacoEnvironment = {
-    getWorker: function (_moduleId, label) {
+    getWorker: function (_moduleId: any, label: string | number) {
         console.log('getWorker', _moduleId, label);
         const workerFactory = workerLoaders[label]
         if (workerFactory != null) {
