@@ -1,9 +1,7 @@
-## Update dependencias
+# Python Editor
 
-````
-ncu
-ncu --upgrade
-````
+https://github.com/CodinGame/monaco-vscode-api
+
 
 ## Dependencias
 

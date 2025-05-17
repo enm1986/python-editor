@@ -35,18 +35,29 @@ import "vscode/localExtensionHost";
 import {initWebSocketAndStartClient} from './lsp-client'
 
 import getBaseServiceOverride from "@codingame/monaco-vscode-base-service-override"
-// import getPreferencesServiceOverride from "@codingame/monaco-vscode-preferences-service-override"
-import getLanguagesServiceOverride from "@codingame/monaco-vscode-languages-service-override";
-import getThemeServiceOverride from "@codingame/monaco-vscode-theme-service-override";
-import getTextMateServiceOverride from "@codingame/monaco-vscode-textmate-service-override";
-// import getModelServiceOverride from "@codingame/monaco-vscode-model-service-override";
+import getHostServiceOverride from "@codingame/monaco-vscode-host-service-override"
 import getExtensionServiceOverride from "@codingame/monaco-vscode-extensions-service-override";
-import getSnippetsServiceOverride from '@codingame/monaco-vscode-snippets-service-override';
+// import getFilesServiceOverride from "@codingame/monaco-vscode-files-service-override";
+// import getQuickAccessServiceOverride from "@codingame/monaco-vscode-quickaccess-service-override";
+// import getNotificationsServiceOverride from "@codingame/monaco-vscode-notifications-service-override";
+// import getDialogsServiceOverride from "@codingame/monaco-vscode-dialogs-service-override"
+// import getModelServiceOverride from "@codingame/monaco-vscode-model-service-override";
+// import getEditorServiceOverride from "@codingame/monaco-vscode-editor-service-override"
+// import getViewsServiceOverride from "@codingame/monaco-vscode-views-service-override"
 // import getConfigurationServiceOverride from "@codingame/monaco-vscode-configuration-service-override"
-// import getExtensionGalleryServiceOverride from "@codingame/monaco-vscode-extension-gallery-service-override"
-// import getAIServiceOverride from '@codingame/monaco-vscode-ai-service-override';
 // import getKeybindingsServiceOverride from "@codingame/monaco-vscode-keybindings-service-override"
-// import getNotificationsServiceOverride from  "@codingame/monaco-vscode-notifications-service-override";
+import getLanguagesServiceOverride from "@codingame/monaco-vscode-languages-service-override";
+import getTextMateServiceOverride from "@codingame/monaco-vscode-textmate-service-override";
+// import getTreeSitterServiceOverride from "@codingame/monaco-vscode-treesitter-service-override";
+import getThemeServiceOverride from "@codingame/monaco-vscode-theme-service-override";
+import getSnippetsServiceOverride from "@codingame/monaco-vscode-snippets-service-override";
+// import getDebugServiceOverride from "@codingame/monaco-vscode-debug-service-override";
+// import getPreferencesServiceOverride from "@codingame/monaco-vscode-preferences-service-override";
+// import getStorageServiceOverride from "@codingame/monaco-vscode-storage-service-override";
+// import getNotebookServiceOverride from "@codingame/monaco-vscode-notebook-service-override";
+// import getExtensionGalleryServiceOverride from "@codingame/monaco-vscode-extension-gallery-service-override"
+// import getAIServiceOverride from "@codingame/monaco-vscode-ai-service-override"';
+
 
 export type WorkerLoader = () => Worker;
 const workerLoaders: Partial<Record<string, WorkerLoader>> = {
@@ -67,16 +78,19 @@ window.MonacoEnvironment = {
 
 await initializeServices({
     ...getBaseServiceOverride(),
-    // ...getPreferencesServiceOverride(),
-    ...getLanguagesServiceOverride(),
-    ...getThemeServiceOverride(),
-    ...getTextMateServiceOverride(),
-    // ...getModelServiceOverride(),
+    ...getHostServiceOverride(),
     ...getExtensionServiceOverride(),
-    ...getSnippetsServiceOverride(),
+    // ...getQuickAccessServiceOverride(),
+    // ...getNotificationsServiceOverride(),
+    // ...getModelServiceOverride(),
     // ...getConfigurationServiceOverride(),
     // ...getKeybindingsServiceOverride(),
-    // ...getNotificationsServiceOverride(),
+    ...getLanguagesServiceOverride(),
+    ...getTextMateServiceOverride(),
+    ...getThemeServiceOverride(),
+    ...getSnippetsServiceOverride(),
+    // ...getPreferencesServiceOverride(),
+    // ...getStorageServiceOverride(),
     // ...getAIServiceOverride({
     //     // Opciones de configuración (opcional)
     //     enableAI: true, // Habilita el servicio de IA
