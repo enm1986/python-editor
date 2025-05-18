@@ -23,9 +23,6 @@ import "@codingame/monaco-vscode-theme-solarized-dark-default-extension"
 import "@codingame/monaco-vscode-theme-monokai-default-extension"
 import "@codingame/monaco-vscode-theme-monokai-dimmed-default-extension"
 
-import "@codingame/monaco-vscode-keybindings-service-override"
-
-
 import * as monaco from 'monaco-editor';
 import {initialize as initializeServices} from "@codingame/monaco-vscode-api"
 import {registerExtension} from "@codingame/monaco-vscode-api/extensions";
@@ -35,8 +32,8 @@ import "vscode/localExtensionHost";
 import {initWebSocketAndStartClient} from './lsp-client'
 
 import getBaseServiceOverride from "@codingame/monaco-vscode-base-service-override"
-import getHostServiceOverride from "@codingame/monaco-vscode-host-service-override"
-import getExtensionServiceOverride from "@codingame/monaco-vscode-extensions-service-override";
+// import getHostServiceOverride from "@codingame/monaco-vscode-host-service-override"
+// import getExtensionServiceOverride from "@codingame/monaco-vscode-extensions-service-override";
 // import getFilesServiceOverride from "@codingame/monaco-vscode-files-service-override";
 // import getQuickAccessServiceOverride from "@codingame/monaco-vscode-quickaccess-service-override";
 // import getNotificationsServiceOverride from "@codingame/monaco-vscode-notifications-service-override";
@@ -61,8 +58,14 @@ import getSnippetsServiceOverride from "@codingame/monaco-vscode-snippets-servic
 
 export type WorkerLoader = () => Worker;
 const workerLoaders: Partial<Record<string, WorkerLoader>> = {
-    TextEditorWorker: () => new Worker(new URL('monaco-editor/esm/vs/editor/editor.worker.js', import.meta.url), {type: 'module'}),
-    TextMateWorker: () => new Worker(new URL('@codingame/monaco-vscode-textmate-service-override/worker', import.meta.url), {type: 'module'})
+    TextEditorWorker: () => new Worker(
+        new URL('monaco-editor/esm/vs/editor/editor.worker.js', import.meta.url),
+        {type: 'module'}
+    ),
+    TextMateWorker: () => new Worker(
+        new URL('@codingame/monaco-vscode-textmate-service-override/worker', import.meta.url),
+        {type: 'module'}
+    )
 }
 
 window.MonacoEnvironment = {
@@ -78,11 +81,12 @@ window.MonacoEnvironment = {
 
 await initializeServices({
     ...getBaseServiceOverride(),
-    ...getHostServiceOverride(),
-    ...getExtensionServiceOverride(),
+    // ...getHostServiceOverride(),
+    // ...getExtensionServiceOverride(),
     // ...getQuickAccessServiceOverride(),
     // ...getNotificationsServiceOverride(),
     // ...getModelServiceOverride(),
+    // ...getEditorServiceOverride(),
     // ...getConfigurationServiceOverride(),
     // ...getKeybindingsServiceOverride(),
     ...getLanguagesServiceOverride(),
@@ -114,6 +118,8 @@ monaco.editor.create(document.getElementById('editor')!, {
     automaticLayout: true,
 });
 
+
+// initWebSocketAndStartClient(`ws://localhost:5007`)
 
 initWebSocketAndStartClient(`ws://localhost:8000/lsp/${workspace}?uuid=${uuid}`)
 await updateWorkspace(workspace_data)
