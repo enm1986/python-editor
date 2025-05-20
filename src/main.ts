@@ -104,7 +104,6 @@ await initializeServices({
 });
 
 const workspace = 'client'
-const uuid = crypto.randomUUID();
 const workspace_data = {
     "campos": {
         "APL": "TextCtrl"
@@ -120,44 +119,66 @@ monaco.editor.create(document.getElementById('editor')!, {
 
 
 // initWebSocketAndStartClient(`ws://localhost:5007`)
-
-initWebSocketAndStartClient(`ws://localhost:8000/lsp/${workspace}?uuid=${uuid}`)
-await updateWorkspace(workspace_data)
-
-// console.log('result', 'sendToBackend');
-// const result = await sendToBackend('debug');
-// console.log('result', result);
-
-// Función para enviar solicitudes al backend
-async function sendToBackend(endpoint: any) {
-    try {
-        const response = await fetch(`http://localhost:8000/${endpoint}/${workspace}`, {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json'},
-        });
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error("Error en la solicitud:", error);
-        throw error;
-    }
+const websocket = initWebSocketAndStartClient(`ws://localhost:8000/lsp/${workspace}`)
+try {
+    await updateWorkspace(websocket, workspace_data);
+} catch (error) {
+    console.error("Error en updateWorkspace:", error);
 }
 
-async function updateWorkspace(data: any) {
-    try {
-        const response = await fetch(`http://localhost:8000/update?uuid=${uuid}`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"data": data})
-        });
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
+
+function waitForWebSocketConnection(websocket: WebSocket): Promise<void> {
+    return new Promise((resolve, reject) => {
+        const maxAttempts = 10;
+        const intervalTime = 500; // medio segundo entre intentos
+        let currentAttempt = 0;
+
+        // Si ya está conectado, resolvemos inmediatamente
+        if (websocket.readyState === WebSocket.OPEN) {
+            resolve();
+            return;
         }
-        return await response.json();
+
+        // Si está cerrado o con error, rechazamos inmediatamente
+        if (websocket.readyState === WebSocket.CLOSED || websocket.readyState === WebSocket.CLOSING) {
+            reject(new Error('WebSocket está cerrado o cerrándose'));
+            return;
+        }
+
+        const interval = setInterval(() => {
+            if (websocket.readyState === WebSocket.OPEN) {
+                clearInterval(interval);
+                resolve();
+            } else {
+                currentAttempt++;
+                if (currentAttempt >= maxAttempts) {
+                    clearInterval(interval);
+                    reject(new Error('Tiempo de espera agotado para la conexión WebSocket'));
+                }
+            }
+        }, intervalTime);
+
+        websocket.addEventListener('error', () => {
+            clearInterval(interval);
+            reject(new Error('Error en la conexión WebSocket'));
+        });
+    });
+}
+
+
+async function updateWorkspace(websocket: WebSocket, data: any) {
+    try {
+        await waitForWebSocketConnection(websocket);
+
+        const message = {
+            method: 'updateWorkspace',
+            data: data
+        };
+
+        websocket.send(JSON.stringify(message));
+
     } catch (error) {
-        console.error("Error en la solicitud:", error);
+        console.error("Error al enviar updateWorkspace:", error);
         throw error;
     }
 }
