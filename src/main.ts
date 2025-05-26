@@ -1,38 +1,38 @@
-import './style.css'
-import './extensions/blinds-theme.vsix'
-import './extensions/dark-colors-theme.vsix'
-import './extensions/dracula-high-contrast.vsix'
-import './extensions/jetbrains-darcula-theme.vsix'
-import './extensions/see-the-color.vsix'
-import './extensions/vsc-material-theme.vsix'
+import './style.css';
+import './extensions/blinds-theme.vsix';
+import './extensions/dark-colors-theme.vsix';
+import './extensions/dracula-high-contrast.vsix';
+import './extensions/jetbrains-darcula-theme.vsix';
+import './extensions/see-the-color.vsix';
+import './extensions/vsc-material-theme.vsix';
 
 import '@codingame/monaco-vscode-python-default-extension';
 import "@codingame/monaco-vscode-theme-defaults-default-extension";
 
 // Idiomas
-// import "@codingame/monaco-vscode-language-pack-es"
+// import "@codingame/monaco-vscode-language-pack-es";
 
 // Temas
-import "@codingame/monaco-vscode-theme-abyss-default-extension"
-import "@codingame/monaco-vscode-theme-kimbie-dark-default-extension"
-import "@codingame/monaco-vscode-theme-red-default-extension"
-import "@codingame/monaco-vscode-theme-tomorrow-night-blue-default-extension"
-import "@codingame/monaco-vscode-theme-quietlight-default-extension"
-import "@codingame/monaco-vscode-theme-solarized-light-default-extension"
-import "@codingame/monaco-vscode-theme-solarized-dark-default-extension"
-import "@codingame/monaco-vscode-theme-monokai-default-extension"
-import "@codingame/monaco-vscode-theme-monokai-dimmed-default-extension"
+import "@codingame/monaco-vscode-theme-abyss-default-extension";
+import "@codingame/monaco-vscode-theme-kimbie-dark-default-extension";
+import "@codingame/monaco-vscode-theme-red-default-extension";
+import "@codingame/monaco-vscode-theme-tomorrow-night-blue-default-extension";
+import "@codingame/monaco-vscode-theme-quietlight-default-extension";
+import "@codingame/monaco-vscode-theme-solarized-light-default-extension";
+import "@codingame/monaco-vscode-theme-solarized-dark-default-extension";
+import "@codingame/monaco-vscode-theme-monokai-default-extension";
+import "@codingame/monaco-vscode-theme-monokai-dimmed-default-extension";
 
 import * as monaco from 'monaco-editor';
-import {initialize as initializeServices} from "@codingame/monaco-vscode-api"
+import {initialize as initializeServices} from "@codingame/monaco-vscode-api";
 import {registerExtension} from "@codingame/monaco-vscode-api/extensions";
 // import {extensions} from "vscode";
 import "vscode/localExtensionHost";
 
-import {initWebSocketAndStartClient} from './lsp-client'
+import {initWebSocketAndStartClient} from './lsp-client';
 
-import getBaseServiceOverride from "@codingame/monaco-vscode-base-service-override"
-// import getHostServiceOverride from "@codingame/monaco-vscode-host-service-override"
+import getBaseServiceOverride from "@codingame/monaco-vscode-base-service-override";
+// import getHostServiceOverride from "@codingame/monaco-vscode-host-service-override";
 // import getExtensionServiceOverride from "@codingame/monaco-vscode-extensions-service-override";
 // import getFilesServiceOverride from "@codingame/monaco-vscode-files-service-override";
 // import getQuickAccessServiceOverride from "@codingame/monaco-vscode-quickaccess-service-override";
@@ -52,7 +52,7 @@ import getSnippetsServiceOverride from "@codingame/monaco-vscode-snippets-servic
 // import getPreferencesServiceOverride from "@codingame/monaco-vscode-preferences-service-override";
 // import getStorageServiceOverride from "@codingame/monaco-vscode-storage-service-override";
 // import getNotebookServiceOverride from "@codingame/monaco-vscode-notebook-service-override";
-// import getExtensionGalleryServiceOverride from "@codingame/monaco-vscode-extension-gallery-service-override"
+// import getExtensionGalleryServiceOverride from "@codingame/monaco-vscode-extension-gallery-service-override";
 // import getAIServiceOverride from "@codingame/monaco-vscode-ai-service-override"';
 
 
@@ -103,28 +103,34 @@ await initializeServices({
     // }),
 });
 
-const workspace = 'client'
+const workspace = 'client';
 const workspace_data = {
     "campos": {
         "APL": "TextCtrl"
     }
 }
 
-
-monaco.editor.create(document.getElementById('editor')!, {
-    value: "import numpy as np\nprint('Hello world!')",
-    language: 'python',
-    automaticLayout: true,
-});
-
+let editor = monaco.editor.create(
+    document.getElementById('editor')!, {
+        value: "",
+        language: 'python',
+        automaticLayout: true,
+    }
+);
 
 // initWebSocketAndStartClient(`ws://localhost:5007`)
-const websocket = initWebSocketAndStartClient(`ws://localhost:8000/lsp/${workspace}`)
+const websocket = initWebSocketAndStartClient(`ws://localhost:8000/lsp/${workspace}`);
 try {
     await updateWorkspace(websocket, workspace_data);
 } catch (error) {
     console.error("Error en updateWorkspace:", error);
 }
+
+// Insertar código en el editor
+await new Promise(resolve => setTimeout(resolve, 1000));
+console.log('Insertando código');
+updateEditorContent(editor, "import numpy as np\nprint('Hello world!')");
+console.log('Código insertado');
 
 
 function waitForWebSocketConnection(websocket: WebSocket): Promise<void> {
@@ -181,4 +187,19 @@ async function updateWorkspace(websocket: WebSocket, data: any) {
         console.error("Error al enviar updateWorkspace:", error);
         throw error;
     }
+}
+
+
+function updateEditorContent(editor: monaco.editor.IStandaloneCodeEditor, newCode: string) {
+
+    // Reemplaza todo el contenido del editor con el nuevo código
+    console.log('Insertando código');
+    editor.setValue(newCode);
+    console.log('Código insertado');
+
+    // Opcionalmente, mueve el cursor al inicio del documento
+    editor.setPosition({lineNumber: 1, column: 1});
+
+    // Opcionalmente, enfoca el editor
+    editor.focus();
 }
