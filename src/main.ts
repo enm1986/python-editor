@@ -32,7 +32,7 @@ import {registerExtension} from "@codingame/monaco-vscode-api/extensions";
 // import {extensions} from "vscode";
 import "vscode/localExtensionHost";
 
-import {initWebSocketAndStartClient} from './services/lsp-client.js';
+import {initWebSocketAndStartClient} from "@services/lsp-client";
 
 import getBaseServiceOverride from "@codingame/monaco-vscode-base-service-override";
 // import getHostServiceOverride from "@codingame/monaco-vscode-host-service-override";

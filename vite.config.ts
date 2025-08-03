@@ -1,43 +1,65 @@
-import type {UserConfig} from 'vite';
+import type { UserConfig } from 'vite';
+import { defineConfig } from 'vite';
 import importMetaUrlPlugin from '@codingame/esbuild-import-meta-url-plugin';
-import vsixPlugin from '@codingame/monaco-vscode-rollup-vsix-plugin'
+import vsixPlugin from '@codingame/monaco-vscode-rollup-vsix-plugin';
 
-export default {
-    optimizeDeps: {
-        esbuildOptions: {
-            plugins: [
-                importMetaUrlPlugin, // Plugin para manejar import.meta.url
-            ]
+export default defineConfig({
+    // Configuración del servidor de desarrollo
+    server: {
+        port: 3000,
+        open: true,
+        cors: true,
+    },
+
+    // Configuración del build
+    build: {
+        target: 'esnext',
+        outDir: 'dist',
+        sourcemap: true,
+        minify: 'esbuild',
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    'monaco-editor': ['monaco-editor'],
+                    'vscode-api': ['@codingame/monaco-vscode-api'],
+                    'language-client': ['monaco-languageclient', 'vscode-ws-jsonrpc'],
+                }
+            }
         }
     },
+
+    // Optimización de dependencias
+    optimizeDeps: {
+        include: [
+            'monaco-editor',
+            '@codingame/monaco-vscode-api',
+            'monaco-languageclient',
+            'vscode-ws-jsonrpc'
+        ],
+        esbuildOptions: {
+            plugins: [
+                importMetaUrlPlugin,
+            ],
+        }
+    },
+
+    // Plugins
     plugins: [
-        // Plugin para copiar archivos .vsix a la carpeta de salida
-        vsixPlugin(),
-        // viteStaticCopy({
-        //     targets: [
-        //         {
-        //             src: 'public/extensions/jetbrains-darcula-theme-1.3.4.vsix', // Ruta al archivo .vsix
-        //             dest: 'extensions' // Carpeta de destino en el build
-        //         }
-        //     ]
-        // })
-        // {
-        //     name: 'load-vscode-css-as-string',
-        //     enforce: 'pre',
-        //     async resolveId(source, importer, options) {
-        //         const resolved = (await this.resolve(source, importer, options))!
-        //         if (
-        //             resolved.id.match(
-        //                 /node_modules\/(@codingame\/monaco-vscode|vscode|monaco-editor).*\.css$/
-        //             )
-        //         ) {
-        //             return {
-        //                 ...resolved,
-        //                 id: resolved.id + '?inline'
-        //             }
-        //         }
-        //         return undefined
-        //     }
-        // }
-    ]
-} satisfies UserConfig;
+        vsixPlugin(), // Este plugin maneja automáticamente los archivos .vsix
+    ],
+
+    // Configuración de resolución
+    resolve: {
+        alias: {
+            '@': '/src',
+            '@extensions': '/src/extensions',
+            '@services': '/src/services',
+            '@config': '/src/config'
+        }
+    },
+
+    // Variables de entorno
+    define: {
+        __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
+    }
+});
