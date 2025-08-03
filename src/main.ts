@@ -129,7 +129,27 @@ try {
 // Insertar código en el editor
 await new Promise(resolve => setTimeout(resolve, 1000));
 console.log('Insertando código');
-updateEditorContent(editor, "import numpy as np\nprint('Hello world!')");
+updateEditorContent(
+    editor,
+    `import numpy as np
+import pandas as pd
+import os
+print('Hello world!')
+class Prueba:
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
+x = Prueba(1, 2)
+z = os.path.normpath(x)
+y = f'{x} - {z}'
+# 1 = 1/0
+Prueba(h, j, b)
+print('Hello world!')
+a = np.abs()
+df = pd.DataFrame()
+`
+
+);
 console.log('Código insertado');
 
 
