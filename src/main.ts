@@ -1,11 +1,14 @@
-import './style.css';
-import './extensions/blinds-theme.vsix';
-import './extensions/dark-colors-theme.vsix';
-import './extensions/dracula-high-contrast.vsix';
-import './extensions/jetbrains-darcula-theme.vsix';
-import './extensions/see-the-color.vsix';
-import './extensions/vsc-material-theme.vsix';
-
+import './styles/main.css';
+import '../extensions/themes/blinds-theme.vsix';
+import '../extensions/themes/dark-colors-theme.vsix';
+import '../extensions/themes/dracula-high-contrast.vsix';
+import '../extensions/themes/jetbrains-darcula-theme.vsix';
+import '../extensions/themes/see-the-color.vsix';
+import '../extensions/themes/vsc-material-theme.vsix';
+import '../extensions/languages/ms-python.python-2025.6.1-web.vsix';
+import '../extensions/languages/python-beautifier.python-beautifier-0.0.2-web.vsix';
+// import '../extensions/tools/ericsia.pythonsnippets3-3.3.18-web.vsix';
+// import '../extensions/tools/ericsia.pythonsnippets3pro-3.3.2-web.vsix';
 import '@codingame/monaco-vscode-python-default-extension';
 import "@codingame/monaco-vscode-theme-defaults-default-extension";
 
@@ -29,7 +32,7 @@ import {registerExtension} from "@codingame/monaco-vscode-api/extensions";
 // import {extensions} from "vscode";
 import "vscode/localExtensionHost";
 
-import {initWebSocketAndStartClient} from './lsp-client';
+import {initWebSocketAndStartClient} from './services/lsp-client.js';
 
 import getBaseServiceOverride from "@codingame/monaco-vscode-base-service-override";
 // import getHostServiceOverride from "@codingame/monaco-vscode-host-service-override";
